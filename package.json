@@ -1,0 +1,19 @@
+{
+  "name": "electron-app",
+  "version": "1.0.0",
+  "description": "",
+  "main": "src/index.js",
+  "scripts": {
+    "start": "electron ."
+  },
+  "author": "Wendy Lopez",
+  "license": "ISC",
+  "devDependencies": {
+    "electron": "^18.0.1",
+    "electron-app": "^1.0.0",
+    "electron-packager": "^15.4.0"
+  },
+  "dependencies": {
+    "electron-reload": "^2.0.0-alpha.1"
+  }
+}

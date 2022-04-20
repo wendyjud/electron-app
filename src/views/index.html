@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <title>Electron App</title>
+    <link rel="stylesheet" href="bootstrap.css">
+    <link rel="stylesheet" href="bootstrap.min.css">
+    <link rel="stylesheet" href="./views/custom.css">
+  </head>
+  <body>
+
+
+    <div class="container-fluid p-4">
+      
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="#">Producton</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarColor01" aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarColor01">
+      <ul class="navbar-nav me-auto">
+        <li class="nav-item">
+          <a class="nav-link active" href="#">Inicio
+            <span class="visually-hidden">(current)</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="../products.html">Productos</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="../registrar.html">Registrar producto</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">About</a>
+        </li>
+      </ul>
+      <form class="d-flex">
+        <input class="form-control me-sm-2" type="text" placeholder="Buscar producto">
+        <button class="btn btn-secondary my-2 my-sm-0" type="submit">Buscar</button>
+      </form>
+    </div>
+  </div>
+</nav>
+      <div class="container">
+        <h1 align="center">Bienvenido al sistema del minisúper "PRODUCTON"</h1>
+      </div>    
+      <div class="row" id="products">
+      </div>
+    </div>
+
+    <!-- Logic -->
+    <script>
+      const { ipcRenderer } = require('electron');
+      const products = document.querySelector('#products');
+
+      // New Product
+      ipcRenderer.on('product:new', (e, newProduct) => {
+        const newProductTemplate = `
+        <div class="col-xs-4 p-2">
+        <div class="card text-center">
+            <div class="card-header">
+              <h5 class="card-title">${newProduct.name}</h5>
+            </div>
+            <div class="card-body">
+              ${newProduct.description}
+              <hr/>
+              $ ${newProduct.price} 
+            </div>
+            <div class="card-footer">
+              <button class="btn btn-danger btn-sm">
+                DELETE
+              </button>
+            </div>
+        </div>
+        </div>
+      `;
+        products.innerHTML += newProductTemplate;
+        const btns = document.querySelectorAll('.btn.btn-danger');
+        btns.forEach(btn => {
+          btn.addEventListener('click', e => {
+            e.target.parentElement.parentElement.parentElement.remove();
+          });
+        })
+      });
+
+      // Remove All Products
+      ipcRenderer.on('products:remove-all', e => {
+        products.innerHTML = '';
+      });
+
+      // Remove Single Product
+      function removeProduct(e) {
+      }
+    </script>
+  </body>
+</html>
